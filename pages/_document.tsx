@@ -6,10 +6,6 @@ export default function Document() {
             <Head>
                 <meta charSet="utf-8" />
                 <meta
-                    name="viewport"
-                    content="width=device-width, initial-scale=1.0"
-                />
-                <meta
                     key="desc"
                     name="description"
                     content="Shivangam Soni's Portfolio Website. Shivangam Soni is a Self-Taught Web Developer."
