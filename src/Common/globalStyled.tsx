@@ -1,8 +1,9 @@
 import styled, { css } from "styled-components";
 
 export const makeSection = css`
-    width: 100%;
+    width: min(1200px, 96%);
     height: 100%;
+    margin: 0 auto;
 `;
 
 export const Section = styled.section`

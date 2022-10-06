@@ -17,6 +17,14 @@ export const validateEmail = (email: string) => {
     return emailErrorMsg;
 };
 
+export const validatePassword = (password: string) => {
+    let passwordErrorMsg = "";
+    if (password.length < 8 || password.length > 16) {
+        passwordErrorMsg = "Password should be between 8 to 16 Characters";
+    }
+    return passwordErrorMsg;
+};
+
 export const validateSubject = (subject: string) => {
     let subjectError = subject.trim() === "" ? "Subject Can't be Empty" : "";
     return subjectError;
