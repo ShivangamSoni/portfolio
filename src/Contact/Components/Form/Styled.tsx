@@ -8,6 +8,45 @@ export const StyledForm = styled.form`
     gap: 20px;
 `;
 
+export const Success = styled.span`
+    display: block;
+
+    font-size: 0.8em;
+    padding: 0.5em 0.7em;
+    border-radius: 3px;
+
+    color: hsl(240, 100%, 50%);
+    background-color: hsl(180, 100%, 90%);
+`;
+
+export const Error = styled.span`
+    display: block;
+
+    font-size: 0.8em;
+    padding: 0.5em 0.7em;
+    border-radius: 3px;
+
+    color: #f03;
+    background-color: #fcc;
+`;
+
+export const FormField = styled.div<{
+    fillSpace?: boolean;
+}>`
+    ${({ fillSpace }) => {
+        if (fillSpace) {
+            return {
+                gridColumn: "1/-1",
+            };
+        }
+    }}
+
+    @media screen and (max-width: 500px) {
+        grid-column: 1 / -1;
+        font-size: 0.9em;
+    }
+`;
+
 export const Label = styled.span`
     position: absolute;
     top: 0.4em;
@@ -32,17 +71,9 @@ const labelUp = css`
 `;
 
 export const InputGroup = styled.label<{
-    fillSpace?: boolean;
     inputFilled?: boolean;
 }>`
-    ${({ fillSpace }) => {
-        if (fillSpace) {
-            return {
-                gridColumn: "1/-1",
-            };
-        }
-    }}
-
+    display: block;
     border: 1px solid ${({ theme }) => theme.white[100]};
     border-radius: 3px;
 
@@ -57,7 +88,6 @@ export const InputGroup = styled.label<{
 
     &:focus-within {
         border-color: ${({ theme }) => theme.primary};
-        border-radius: 5px;
 
         ${Label} {
             ${labelUp}
@@ -71,11 +101,6 @@ export const InputGroup = styled.label<{
             }
         }}
     }
-
-    @media screen and (max-width: 500px) {
-        grid-column: 1 / -1;
-        font-size: 0.9em;
-    }
 `;
 
 const inputStyle = css`
@@ -83,6 +108,7 @@ const inputStyle = css`
     outline: none;
     border: none;
 
+    font-family: inherit;
     font-size: 1rem;
     padding: 0.2em 0.5em;
 
