@@ -18,7 +18,7 @@ import {
     StyledForm,
     Success,
     Textarea,
-} from "./Styled";
+} from "../../../Common/Form/Styled";
 
 const Form: FC = () => {
     const [{ data, error }, setState] = useState(DEFAULT_STATE);
@@ -110,7 +110,6 @@ const Form: FC = () => {
         }
 
         setState(DEFAULT_STATE);
-        setFormInfo(DEFAULT_FORM_INFO);
     };
 
     return (
