@@ -7,6 +7,8 @@ import "../src/Common/globalStyles.css";
 import Layout from "../src/Layout/Layout";
 import { ThemeProvider } from "styled-components";
 import THEME from "../src/Layout/Theme";
+import { SessionProvider } from "next-auth/react";
+import { Session } from "next-auth";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
     getLayout?: (page: ReactElement) => ReactNode;
@@ -33,9 +35,12 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
                 />
             </Head>
 
-            <ThemeProvider theme={THEME}>
-                {getLayout(<Component {...pageProps} />)}
-            </ThemeProvider>
+            {/* @ts-expect-error */}
+            <SessionProvider session={pageProps.session}>
+                <ThemeProvider theme={THEME}>
+                    {getLayout(<Component {...pageProps} />)}
+                </ThemeProvider>
+            </SessionProvider>
         </>
     );
 }

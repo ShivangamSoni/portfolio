@@ -7,7 +7,7 @@ import connectToDB from "../../../server/utils/connectToDB";
 import { validateEmail } from "../../../utils/formValidation";
 import { verifyPassword } from "../../../utils/passwordUtils";
 
-export default NextAuth({
+export const authOptions = {
     session: {
         strategy: "jwt",
         maxAge: 60 * 5, // 5 Minutes
@@ -36,7 +36,6 @@ export default NextAuth({
                 }
 
                 if (adminUser === null) {
-                    console.log(adminUser, !adminUser);
                     throw new Error("Invalid Data!");
                 }
 
@@ -59,4 +58,6 @@ export default NextAuth({
             },
         }),
     ],
-});
+};
+
+export default NextAuth(authOptions);
