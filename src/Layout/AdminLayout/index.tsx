@@ -1,13 +1,20 @@
+import { SessionProvider } from "next-auth/react";
 import type { FC, ReactNode } from "react";
+import { Children } from "react";
 import AdminHeader from "../../Site/AdminHeader";
 import { Wrapper } from "./Styled";
 
 const AdminLayout: FC<{ children: ReactNode }> = ({ children }) => {
+    // @ts-expect-error
+    const session = Children.toArray(children)[0]?.props?.session;
+
     return (
-        <Wrapper>
-            <AdminHeader />
-            {children}
-        </Wrapper>
+        <SessionProvider session={session}>
+            <Wrapper>
+                <AdminHeader />
+                {children}
+            </Wrapper>
+        </SessionProvider>
     );
 };
 

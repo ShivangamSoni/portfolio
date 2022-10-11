@@ -4,6 +4,7 @@ import type { NextPageWithLayout } from "../_app";
 import Head from "next/head";
 import { unstable_getServerSession } from "next-auth";
 
+import AdminLayout from "../../src/Layout/AdminLayout";
 import { authOptions } from "../api/auth/[...nextauth]";
 import AdminSignIn from "../../src/Admin/auth/SignIn";
 
@@ -20,7 +21,7 @@ const AdminSignInPage: NextPageWithLayout = () => {
 };
 
 AdminSignInPage.getLayout = (page: ReactElement) => {
-    return page;
+    return <AdminLayout>{page}</AdminLayout>;
 };
 
 export default AdminSignInPage;
