@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import type { FC } from "react";
 import { useState, useEffect } from "react";
 
@@ -18,6 +19,7 @@ import {
 } from "./Styled";
 
 const Header: FC = () => {
+    const { pathname } = useRouter();
     const isTabletQuery = useMediaQuery({ query: "(max-width: 1000px)" });
     const [show, setShow] = useState(false);
     const [isTablet, setIsTablet] = useState(false);
@@ -35,7 +37,11 @@ const Header: FC = () => {
                     {LINKS.map(({ id, label, icon: LinkIcon, href }, idx) => (
                         <ListItem key={id} onClick={toggle} idx={idx}>
                             <Link href={href} passHref>
-                                <NavLink>
+                                <NavLink
+                                    className={
+                                        pathname === href ? "active" : ""
+                                    }
+                                >
                                     <Icon>
                                         <LinkIcon />
                                     </Icon>
