@@ -6,7 +6,7 @@ const nextConfig = {
         styledComponents: true,
     },
     images: {
-        domains: ["drive.google.com"],
+        domains: ["drive.google.com", "iili.io"],
     },
 };
 

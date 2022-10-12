@@ -5,19 +5,28 @@ import { Section, Title } from "../Common/globalStyled";
 import { Button, Wrapper } from "./Styled";
 import Projects from "./Components/Projects";
 import Skills from "./Components/Skills";
+import { ISkills } from "../Admin/Skills";
+import { IProjects } from "../Admin/Projects";
 
-const Resume: FC = () => {
+const Resume: FC<{ skills: ISkills[]; projects: IProjects[] }> = ({
+    skills,
+    projects,
+}) => {
     return (
         <Section>
             <Title>Resume</Title>
 
-            <Button title="Download Resume.pdf">
+            <Button
+                title="View Resume"
+                href="https://www.linkedin.com/in/shivangam-soni/overlay/1635505345073/single-media-viewer/"
+                target="_blank"
+            >
                 <Download />
             </Button>
 
             <Wrapper>
-                <Skills />
-                <Projects />
+                <Skills skills={skills} />
+                <Projects projects={projects} />
             </Wrapper>
         </Section>
     );

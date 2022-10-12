@@ -1,15 +1,16 @@
 import type { FC } from "react";
 
-import SKILL_DATA from "../../Constants/SkillData";
 import { Container, Label, ProgressBar, Skill } from "./Styled";
+import { ISkills } from "../../../Admin/Skills";
 
-const Skills: FC = () => {
+const Skills: FC<{ skills: ISkills[] }> = ({ skills }) => {
+    const orderedSkills = [...skills].sort((a, b) => a.order - b.order);
     return (
         <Container>
-            {SKILL_DATA.map(({ id, label, progress }) => (
+            {orderedSkills.map(({ id, name, rating }) => (
                 <Skill key={id}>
-                    <Label>{label}</Label>
-                    <ProgressBar progress={progress} />
+                    <Label>{name}</Label>
+                    <ProgressBar progress={rating} />
                 </Skill>
             ))}
         </Container>

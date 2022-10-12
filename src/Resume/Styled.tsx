@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
     gap: 30px;
 `;
 
-export const Button = styled.button`
+export const Button = styled.a`
     appearance: none;
     outline: none;
     cursor: pointer;

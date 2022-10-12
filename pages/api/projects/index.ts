@@ -13,56 +13,105 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse,
 ) {
-    if (req.method !== "POST") {
+    if (req.method === "POST") {
+        const { name, description, imageUrl, sourceCode, liveDemo } = req.body;
+
+        if (
+            name.trim() === "" ||
+            description.trim() === "" ||
+            imageUrl.trim() === "" ||
+            sourceCode.trim() === ""
+        ) {
+            return res.status(422).json({
+                success: false,
+                error: "Enter Appropriate Data. Apart from Live Demo All other Fields are Required",
+            });
+        }
+
+        try {
+            await connectToDB();
+            console.log("Connected to DB");
+        } catch (e) {
+            // @ts-expect-error
+            console.log(e.message);
+            return res.status(500).json({
+                success: false,
+                error: "Server Error Try Again",
+            });
+        }
+
+        try {
+            const newSkill = await Project.create({
+                name,
+                description,
+                imageUrl,
+                sourceCode,
+                liveDemo,
+            });
+            return res.status(201).json({
+                success: true,
+                message: "Added Successfully",
+            });
+        } catch (e) {
+            // @ts-expect-error
+            console.log(e.message);
+            return res.status(500).json({
+                success: false,
+                error: "Server Error Try Again",
+            });
+        }
+    } else if (req.method === "GET") {
+        try {
+            await connectToDB();
+            console.log("Connected to DB");
+        } catch (e) {
+            // @ts-expect-error
+            console.log(e.message);
+            return res.status(500).json({
+                success: false,
+                error: "Server Error Try Again",
+            });
+        }
+
+        try {
+            const projects = await Project.find({});
+            const projectsProp = projects.map(
+                ({
+                    id,
+                    name,
+                    description,
+                    imageUrl,
+                    sourceCode,
+                    liveDemo,
+                    order,
+                }) => {
+                    return {
+                        id,
+                        name,
+                        description,
+                        imageUrl,
+                        sourceCode,
+                        liveDemo,
+                        order,
+                    };
+                },
+            );
+
+            return res.status(201).json({
+                success: true,
+                projects: projectsProp,
+            });
+        } catch (e) {
+            // @ts-expect-error
+            console.log(e.message);
+            return res.status(500).json({
+                success: false,
+                error: "Server Error Try Again",
+            });
+        }
+    } else {
         return res
             .status(405)
             .json({ success: false, error: "Method not Allowed" });
-    }
-
-    const { name, description, imageUrl, sourceCode, liveDemo } = req.body;
-
-    if (
-        name.trim() === "" ||
-        description.trim() === "" ||
-        imageUrl.trim() === "" ||
-        sourceCode.trim() === ""
-    ) {
-        return res.status(422).json({
-            success: false,
-            error: "Enter Appropriate Data. Apart from Live Demo All other Fields are Required",
-        });
-    }
-
-    try {
-        await connectToDB();
-        console.log("Connected to DB");
-    } catch (e) {
-        // @ts-expect-error
-        console.log(e.message);
-        return res.status(500).json({
-            success: false,
-            error: "Server Error Try Again",
-        });
-    }
-
-    try {
-        const newSkill = await Project.create({
-            name,
-            description,
-            imageUrl,
-            sourceCode,
-            liveDemo,
-        });
-        return res.status(201).json({
-            success: true,
-            message: "Added Successfully",
-        });
-    } catch (e) {
-        // @ts-expect-error
-        console.log(e.message);
-        return res.status(500).json({
-            success: false,
-            error: "Server Error Try Again",
-        });
     }
 }
