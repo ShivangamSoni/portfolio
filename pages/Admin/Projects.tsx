@@ -2,6 +2,7 @@ import type { NextPageWithLayout } from "../_app";
 import type { ReactElement } from "react";
 import type { GetServerSideProps } from "next";
 import Head from "next/head";
+import { useState, useEffect } from "react";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
 
@@ -10,9 +11,26 @@ import connectToDB from "../../server/utils/connectToDB";
 import Project from "../../server/models/Project";
 import ProjectsComp, { IProjects } from "../../src/Admin/Projects";
 
-const AdminProjectsPage: NextPageWithLayout<{ projects: IProjects[] }> = ({
-    projects,
-}) => {
+const AdminProjectsPage: NextPageWithLayout<{ projects: IProjects[] }> = (
+    props,
+) => {
+    const [projects, setProjects] = useState(() => {
+        if (props.projects && props.projects.length > 0) {
+            return props.projects;
+        }
+        return [];
+    });
+
+    useEffect(() => {
+        if (projects.length === 0) {
+            (async () => {
+                const response = await fetch("/api/projects");
+                const { projects } = await response.json();
+                setProjects(projects);
+            })();
+        }
+    }, [projects]);
+
     return (
         <>
             <Head>

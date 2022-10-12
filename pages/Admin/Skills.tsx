@@ -2,6 +2,7 @@ import type { NextPageWithLayout } from "../_app";
 import type { ReactElement } from "react";
 import type { GetServerSideProps } from "next";
 import Head from "next/head";
+import { useState, useEffect } from "react";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
 
@@ -10,9 +11,23 @@ import SkillsComp, { ISkills } from "../../src/Admin/Skills";
 import connectToDB from "../../server/utils/connectToDB";
 import Skill from "../../server/models/Skill";
 
-const AdminSkillsPage: NextPageWithLayout<{ skills: ISkills[] }> = ({
-    skills,
-}) => {
+const AdminSkillsPage: NextPageWithLayout<{ skills: ISkills[] }> = (props) => {
+    const [skills, setSkills] = useState(() => {
+        if (props.skills && props.skills.length > 0) {
+            return props.skills;
+        }
+        return [];
+    });
+
+    useEffect(() => {
+        if (skills.length === 0) {
+            (async () => {
+                const response = await fetch("/api/skills");
+                const { skills } = await response.json();
+                setSkills(skills);
+            })();
+        }
+    }, [skills]);
     return (
         <>
             <Head>

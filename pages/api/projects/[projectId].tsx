@@ -3,6 +3,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import connectToDB from "../../../server/utils/connectToDB";
 import Project from "../../../server/models/Project";
+import { unstable_getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]";
 
 /**
  * @param req {NextApiRequest}
@@ -13,6 +15,12 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse,
 ) {
+    // @ts-expect-error
+    const session = unstable_getServerSession(req, res, authOptions);
+    if (!session) {
+        return res.status(401);
+    }
+
     const { projectId } = req.query;
     if (req.method === "PUT") {
         const { name, description, imageUrl, liveDemo, sourceCode } = req.body;

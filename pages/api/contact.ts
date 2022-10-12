@@ -10,6 +10,7 @@ import {
     validateSubject,
 } from "../../utils/formValidation";
 import { authOptions } from "./auth/[...nextauth]";
+import { unstable_getServerSession } from "next-auth";
 
 /**
  * @param req {NextApiRequest}
